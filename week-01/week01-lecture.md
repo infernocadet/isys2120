@@ -135,5 +135,5 @@ where s.SuppID = p.SuppID
 ## levels of abstraction
 
 <p align="center">
-    <img src="https://github.com/infernocadet/isys2120/blob/main/graphics/prioq.png" width="350" height="auto">
+    <img src="https://github.com/infernocadet/isys2120/blob/main/graphics/loa.png" width="350" height="auto">
 </p>
