@@ -1,6 +1,6 @@
 # Data and DBMS in context
 
-> [!TIP]
+> [!OUTLINE]
 > Outline:
 > The relational data model
 >
