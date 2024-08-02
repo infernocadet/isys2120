@@ -134,6 +134,54 @@ where s.SuppID = p.SuppID
 
 ## levels of abstraction
 
+a **View** describes how a user sees the data. logical schema defines the structure of data as it is shared among all users. physical schema describes the files and indexes used for storage on disk.
+
 <p align="center">
     <img src="https://github.com/infernocadet/isys2120/blob/main/graphics/loa.png" width="350" height="auto">
 </p>
+
+### data independence
+
+applications are insulated from how data is structured and stored. 
+
+- **logical data independence**: protection from changes in logical schema - e.g. from adding in an extra column or table
+- **physical data independence**: protection from changes in physical structure and location of data.
+
+data independence is a large benefit of using a DBMS.
+
+# DBMS vs other ways
+
+can one have a database without a DBMS? info can be stored in files, which are accessed directly by all the programs that need to use the data. files are good at keeping data.
+
+## file vs dbms
+
+dbms only needs to define the central data structures once. in a file, you must do it every time.
+
+it is easier for the dbms to handle the "how" to access the data. in a file, you have to search for everything manually.
+
+declarative queries are:
+- easy to read and maintain
+- usable from different applications
+- efficient evaluation due to automatic optimisation
+
+DBMS can also ensure data integrity.
+
+### drawbacks of file systems
+- data redundancy and inconsistency
+  - multiple file formats, duplication of information in different files
+- difficulty in accessing data
+  - need to write a new program to carry out a task
+- no central authority
+- integrity problems
+
+### the dbms solution
+
+a dbms can offer solutions to all the drawbacks of a file system, however it comes at a price in performance and money.
+
+why does an organisation use a dbms?:
+- data independence and efficient access
+- reduced application development time
+- capability for enhanced data integrity and security
+- extract value by connecting data from different sources
+- uniform data administration
+- concurrent access and crash recovery
