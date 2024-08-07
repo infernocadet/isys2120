@@ -196,3 +196,23 @@ if, for a particular participant entity type, each entity participates in **at m
 - a many-to-one or N:1 relationship from Subject to room
 
 representation in the ER diagram is an **arrow from the keyside rectangle to the relationship diamond**.
+
+when it is a many to many or one to many relationship, where one entity instance can participate in many relationship instances, we just have a plain line. we have an arrowhead, when these entity instances can only participate in at most one of the relationship instances. so in this case, one or many subjects can only be held in one room. on the other hand, rooms can hold many different exams.
+
+<p align="center">
+    <img src="https://github.com/infernocadet/isys2120/blob/main/graphics/arrow.png" width="350" height="auto">
+</p>
+
+### participation constraint on diagram
+
+now lets say, for a particular participant entity type, each entity participates in **at least one** (total participation) relationship instance, we say that the correspoding role has total participation <ins>in the relationship</ins>.
+
+> for example, a subject instance is in at least one CountTo relationship instance (the subject must count towards a degree, at least 1 degree.). here, subject has total participation in CountsTo.
+
+a total relationship is shown by a thick line from the entity type that must participate to the relationship diamond.
+
+in contrast with **partial participation**, where an entity can participate in a relationship but they might not, that is just a normal line.
+
+<p align="center">
+    <img src="https://github.com/infernocadet/isys2120/blob/main/graphics/thick.png" width="350" height="auto">
+</p>
