@@ -207,6 +207,7 @@ when it is a many to many or one to many relationship, where one entity instance
 
 now lets say, for a particular participant entity type, each entity participates in **at least one** (total participation) relationship instance, we say that the correspoding role has total participation <ins>in the relationship</ins>.
 
+> [!NOTE]
 > for example, a subject instance is in at least one CountTo relationship instance (the subject must count towards a degree, at least 1 degree.). here, subject has total participation in CountsTo.
 
 a total relationship is shown by a thick line from the entity type that must participate to the relationship diamond.
