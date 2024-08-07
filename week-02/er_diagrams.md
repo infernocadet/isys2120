@@ -217,3 +217,155 @@ in contrast with **partial participation**, where an entity can participate in a
 <p align="center">
     <img src="https://github.com/infernocadet/isys2120/blob/main/graphics/thick.png" width="350" height="auto">
 </p>
+
+### participation and key constraint
+
+if every entity participates in exactly one relationship, there is both a participation and key constraint hold. this is a **thick arrow**.
+
+for example, to show `every employee works in exactly one faculty`, this means:
+
+- every employee works in at least one faculty (total participation, thick line)
+- every employee works in at most one faculty (key constraint, arrowhead)
+
+<p align="center">
+    <img src="https://github.com/infernocadet/isys2120/blob/main/graphics/both.png" width="350" height="auto">
+</p>
+
+## weak entities
+
+an entity type that does not have a primary key among its attributes. this means, instances need more than the attributes of the entity to distinguish them.
+
+instead, entity instances are distinguished in part by knowing which entity of another type, that they are in a total N:1 relationship with.
+
+we call this the **identifying relationship** - and the main entity is called the **identifying entity type**.
+
+then, among the instances related to another instance of the identifying type, we can distinguish them by an attribute (or combination of attributes) which we call the **discriminator**.
+
+e.g.: payment of a loan, question of a quiz. their identity is that they belong to an identifying entity.
+
+### representation of weak entity types
+
+the situation is lets say we want to track loan repayments as a bank. as a bank, we are giving out multiple different loans. lets say we receive multiple 1st repayments for a bunch of different loans on the same day. these loan repayments just by themselves, their number (1 in this case, as being the first payment) isn't enough to really discriminate which loan they are paying off. so really, the primary key we want to use is the primary key of the loan itself, its identifying entity. we can use another attribute of the weak entity, i.e., the loan repayment number, as another attribute to identify the repayment.
+
+in general, we depict a weak entity type through double rectangles. the identifying relationship is depicted using a double diamond. we underline the discriminator of a weak entity type wish a dashed line (close to a solid line we use for primary keys, but its not enough to be a primary key).
+
+<p align="center">
+    <img src="https://github.com/infernocadet/isys2120/blob/main/graphics/weaj.png" width="350" height="auto">
+</p>
+
+in this case, the relationship diagram for the loan repayment is as follows:
+
+<p align="center">
+    <img src="https://github.com/infernocadet/isys2120/blob/main/graphics/weak.png" width="350" height="auto">
+</p>
+
+notice also, the key and participation constraint delineated by the thick arrow. this means each payment goes towards a loan, and each payment goes towards only one loan. the paymentNumber is the discriminator of the weak entity type, in combination with the loanNumber of the owner Loan entity.
+
+## enhanced ER model
+
+the enhanced model supports:
+
+- specialisation/generalisation
+- abstractions (aggregation)
+
+this introduces some object-oriented like concepts, such as subclasses and superclasses, attribute inheritance.
+
+### generalisation/specialiation
+
+here we want to arrange entity types in a type hierarchy. we determine entity types whose instance entities are (always) also instances of another entity type, and therefore have all the attributes of the more general type.
+
+> [!NOTE]
+> definition: two entity types `E` and `F` are in an "IS-A" relationship ("F is a E") if:
+>
+> 1. the set of attributes of `F` is a superset of the set of attributes of `E`, and
+> 2. the entity set `F` is a subset of the entity set of `E` (each F is an E)
+
+<p align="center">
+    <img src="https://github.com/infernocadet/isys2120/blob/main/graphics/isa.png" width="350" height="auto">
+</p>
+
+one can say F is a specialisation of E (F is subclass) and E is a generalsation of F (E is superclass). e.g. Student is a subclass of Person, person is a superclass of Student - Student is a specialisation of Person, Person is a generalisation of Student.
+
+### attribute and relationship inheritance
+
+a specialisation inherits all attributes of the superclass. a specialisation entity type inherits all the relationship participations of its superclass.
+
+we only show on a rectangle, the attributes and relationships which it has not inherited (those not shared with the superclass.)
+
+<p align="center">
+    <img src="https://github.com/infernocadet/isys2120/blob/main/graphics/sseg.png" width="350" height="auto">
+</p>
+
+### constraints on ISA hierarchies
+
+we can specify _overlap_ and _covering_ constraints for ISA hierarchies:
+
+- overlap constraints
+  - disjoint
+    - a higher-level entity instance can belong to at most one lower-level entity set
+    - represented in ER by writing `disjoint` next to ISA triangle
+  - overlapping
+    - default triangle, but also state explicitly
+    - a higher-level entity instance can belong to more than one lower-level entity set
+- convering constraints
+  - total
+    - a higher-level entity instance must belong to at least one of the lower-level entity sets
+    - denoted using a thick line between ISA triangle and superclass.
+  - partial
+    - this is the default thin line
+    - a higher level entity instance need not belong to one of the lower level entity sets. i.e., not all Person instances need to be Rockstars
+
+### aggregation
+
+consider a ternary relationship `works-on`. suppose we want to record managers for tasks performed by an employee at a branch.
+
+<p align="center">
+    <img src="https://github.com/infernocadet/isys2120/blob/main/graphics/agg.png" width="350" height="auto">
+</p>
+
+relationship sets `works-on` and `manages` represent overlapping information. every `manages` relationship corresponds to a `works-on` relationship.
+
+aggregation is an abstraction through which we can represent relationships as higher-level entity sets.
+
+in this example, an employee works at a branch doing a job. branches hire employees who work a job. there is a manager to manage the branch as well as the employee. so we can make the employee branch job relationship into a single entity. each branch which hires employees and each employee in a branch is managed by a manager.
+
+# some sql notes
+
+## regex matches
+
+pattern consisting of character literals or metacharacters (these specify how to process regex)
+
+| metacharacter | meaning                                                    |
+| ------------- | ---------------------------------------------------------- |
+| ()            | grouping                                                   |
+| \|            | alternative                                                |
+| []            | character list                                             |
+| .             | matches any character                                      |
+| \*            | repeat preceeding pattern any number of times, including 0 |
+| +             | repeat preceeding pattern one or more times                |
+| ^             | start of line                                              |
+| $             | end of line                                                |
+
+```sql
+select title
+from UnitOfStudy
+where regexp_like(uos_code, '^COMP[:digit:]{4}')
+```
+
+## date and time
+
+a couple of sql data types:
+
+- DATE: '2012-03-26'
+- TIME: '16:12:05' - can also be accurate to nano second
+- TIMESTAMP: '2012-03-26 16:12:05'
+- INTERVAL: '5 DAY'
+
+SQL constants include `CURRENT_DATE` and `CURRENT_TIME`.
+
+main ops:
+
+- EXTRACT(_component_ FROM `date`)
+  - `EXTRACT(year FROM enroldate)`
+- DATE string
+  - e.g. DATE '2012-03-01'
