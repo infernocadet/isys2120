@@ -95,4 +95,47 @@ ALTER TABLE Student (
 
 ### composite PK
 
-in some tables, no single column is an identifier
+in some tables, no single column is an identifier - but a combination of columns.
+
+```sql
+CREATE TABLE Airplane (
+  manufacturer VARCHAR(20),
+  serialno INTEGER,
+  weight REAL,
+  PRIMARY KEY (manufactuer, serialno)
+)
+```
+
+### unique constraint
+
+a table can have at most one primary key declared (or composite key). there may also be other columns or combinations which are necessarily (by nature) different from others. any combination of columns which may be unique is considered a **candidate key**
+
+we can say these columns should be `UNIQUE`. postgreSQL does not allow multiple `NULL` entries in a unqiue column.
+
+### foreign key
+
+when we use values to connect info across tables, we expect that there will actually be a connecting value in the other table.
+
+we can make this explicit with a **FOREIGN KEY** constraint. the reference must be to the declared primary key of the referenced table, but postgreSQL allows reference to **candidate key** as well.
+
+values in the foreign key column are allowed to be **NULL**, unless there is a **NOT NULL** constraint. the foreign key must be of the same data type as the primary/candidate key that it references in another table.
+
+```sql
+CREATE TABLE Product (
+  ProdID INTEGER,
+  descr VARCHAR(10),
+  SuppID INTEGER REFERENCES Supplier(SuppID)
+);
+-- or
+CREATE TABLE Product (
+  ProdID INTEGER,
+  descr VARCHAR(10),
+  SuppID INTEGER REFERENCES Supplier -- when no column is mentioned for referenced table, implicit reference is to its primary key
+);
+-- or
+CREATE TABLE Product (
+  ProdID INTEGER,
+  descr VARCHAR(10),
+  FOREIGN KEY (SuppID) REFERENCES Supplier(SuppID)
+);
+```
